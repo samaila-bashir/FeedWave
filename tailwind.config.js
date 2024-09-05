@@ -25,5 +25,5 @@ module.exports = {
       },
     },
   },
-  plugins: ['prettier-plugin-tailwindcss', flowbite.plugin()],
+  plugins: [flowbite.plugin()],
 };
