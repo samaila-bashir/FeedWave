@@ -15,5 +15,24 @@
 }
 
 body {
-  @apply font-sans;
+  @apply bg-alice-blue font-sans;
+}
+
+.mobile-header-bg {
+  background-image: url('./assets/suggestions/mobile/background-header.png');
+  background-size: cover;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .tablet-bg {
+    background-image: url('./assets/suggestions/tablet/background-header.png');
+    background-size: cover;
+  }
+}
+
+@media (min-width: 1024px) {
+  .desktop-bg {
+    background-image: url('./assets/suggestions/desktop/background-header.png');
+    background-size: cover;
+  }
 }

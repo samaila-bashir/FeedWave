@@ -16,7 +16,7 @@ module.exports = {
         'alice-blue': '#F7F8FD',
         'indigo-ink': '#3A4374',
         'slate-gray': '#647196',
-        peach: '#F49F85',
+        'custom-peach': '#F49F85',
         'sky-blue': '#62BCFA ',
         'sub-header-bg': '#373F68',
       },
