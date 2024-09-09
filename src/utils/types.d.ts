@@ -20,7 +20,7 @@ declare interface IComment {
   user: IUser;
 }
 
-declare interface IFeedbacksData {
+declare interface IProductsFeedbackData {
   id: number;
   title: string;
   category: string;
@@ -30,6 +30,6 @@ declare interface IFeedbacksData {
   comments?: IComment[];
 }
 
-declare interface IFeedback {
-  data: IFeedbacksData;
+declare interface IProductFeedback {
+  productsFeedback: IProductsFeedbackData;
 }

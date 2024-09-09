@@ -1,0 +1,3 @@
+export enum SAGA_ACTIONS {
+  GET_FEEDBACKS = 'GET-FEEDBACKS',
+}

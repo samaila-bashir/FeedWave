@@ -2,8 +2,8 @@ import { FC } from 'react';
 import IconArrowUp from '../../../assets/shared/icon-arrow-up.svg';
 import IconComments from '../../../assets/shared/icon-comments.svg';
 
-const Feedback: FC<IFeedback> = ({
-  data: { title, category, upvotes, description },
+const Feedback: FC<IProductFeedback> = ({
+  productsFeedback: { title, category, upvotes, description },
 }) => {
   return (
     <div className="mx-auto w-[85%] rounded-lg bg-white p-8 md:w-full">

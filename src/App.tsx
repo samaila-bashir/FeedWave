@@ -1,7 +1,7 @@
 import ActionBar from './components/ActionBar';
 import MainHeader from './components/MainHeader';
 import MobileHeader from './components/MobileHeader';
-import Feedbacks from './components/Feedbacks';
+import ProductsFeedback from './components/ProductsFeedback';
 
 const App = () => {
   return (
@@ -12,7 +12,7 @@ const App = () => {
         <MainHeader />
         <div className="space-y-8 lg:mt-12 lg:w-[75%]">
           <ActionBar />
-          <Feedbacks />
+          <ProductsFeedback />
         </div>
       </div>
     </>

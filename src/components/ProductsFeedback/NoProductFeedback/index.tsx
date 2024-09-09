@@ -1,7 +1,7 @@
 import IllustrationEmpty from '../../../assets/suggestions/illustration-empty.svg';
 import AddFeedbackBtn from '../../AddFeedbackBtn';
 
-const NoFeedback = () => {
+const NoProductFeedback = () => {
   return (
     <div className="mx-auto flex w-[85%] flex-col items-center gap-12 rounded-lg bg-white px-8 py-20 md:w-full">
       <img src={IllustrationEmpty} alt="Illustration empty" />
@@ -18,4 +18,4 @@ const NoFeedback = () => {
     </div>
   );
 };
-export default NoFeedback;
+export default NoProductFeedback;
