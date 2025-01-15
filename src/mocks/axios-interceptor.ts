@@ -41,6 +41,7 @@ export const mockServer = () => {
   axios.interceptors.request.use(
     (config) => {
       if (config.url === '/api/products-feedback') {
+        console.log('mock server working.');
         return getProductsFeedback(config);
       }
 
