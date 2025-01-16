@@ -6,20 +6,19 @@ import {
   fetchProductsFeedbackFailure,
 } from '../../slices/product-feedback';
 import { SAGA_ACTIONS } from '../actions';
+import { supabase } from '../../../supabase-client';
 
 interface IProductsFeedbackResponse {
   data: IProductsFeedbackData[];
 }
 
-function* fetchAllProductsFeedback(): Generator<
-  any,
-  void,
-  AxiosResponse<IProductsFeedbackResponse>
-> {
+function* fetchAllProductsFeedback(): Generator<any, void, any> {
   try {
     yield put(fetchProductsFeedback());
 
-    const response = yield call(axios.get, '/api/products-feedback');
+    const response: IProductsFeedbackResponse = yield call(() =>
+      supabase.from('product_feedbacks').select('*')
+    );
 
     yield put(fetchProductsFeedbackSuccess(response.data));
   } catch (error: any) {
