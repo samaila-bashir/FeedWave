@@ -1,12 +1,11 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import axios, { AxiosResponse } from 'axios';
+import { supabase } from '../../../supabase-client';
 import {
   fetchProductsFeedback,
-  fetchProductsFeedbackSuccess,
   fetchProductsFeedbackFailure,
+  fetchProductsFeedbackSuccess,
 } from '../../slices/product-feedback';
 import { SAGA_ACTIONS } from '../actions';
-import { supabase } from '../../../supabase-client';
 
 interface IProductsFeedbackResponse {
   data: IProductsFeedbackData[];

@@ -20,7 +20,7 @@ const ProductsFeedback = () => {
     <>
       {productsFeedback.length > 0 ? (
         productsFeedback.map((feedback: IProductsFeedbackData) => (
-          <ProductFeedback productsFeedback={feedback} />
+          <ProductFeedback key={feedback.id} productsFeedback={feedback} />
         ))
       ) : (
         <NoProductFeedback />
