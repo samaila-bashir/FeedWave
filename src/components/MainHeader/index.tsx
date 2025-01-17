@@ -10,7 +10,7 @@ const MainHeader = () => {
         <AppTitle />
       </div>
 
-      <div className="flex w-1/3 flex-wrap items-start gap-2 rounded-xl bg-white p-6 lg:w-full lg:px-4">
+      <div className="flex w-1/3 flex-wrap items-start gap-2 rounded-xl bg-white p-6 lg:w-full lg:px-6">
         {categories.map(({ id, title, isActive }) => (
           <CategoryFilters key={id} title={title} isActive={isActive} />
         ))}

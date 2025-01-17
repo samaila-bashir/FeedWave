@@ -10,7 +10,7 @@ const App = () => {
 
       <div className="gap-3 md:mx-auto md:w-[90%] lg:flex lg:w-[80%] lg:justify-between lg:space-x-5">
         <MainHeader />
-        <div className="space-y-8 lg:mt-12 lg:w-[75%]">
+        <div className="space-y-8 lg:mt-12 lg:w-[100%]">
           <ActionBar />
           <ProductsFeedback />
         </div>
