@@ -2,7 +2,14 @@ export const sortFeedback = (
   feedbacks: IProductsFeedbackData[] | null | undefined,
   sortOption: string
 ): IProductsFeedbackData[] => {
-  return [...(feedbacks || [])].sort((a, b) => {
+  if (!Array.isArray(feedbacks)) {
+    return [];
+  }
+
+  // Create a shallow copy of the array before sorting
+  const feedbacksCopy = [...feedbacks];
+
+  return feedbacksCopy.sort((a, b) => {
     switch (sortOption) {
       case 'Most Upvotes':
         return b.upvotes - a.upvotes;
