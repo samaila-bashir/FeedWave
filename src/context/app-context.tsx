@@ -18,9 +18,7 @@ export const useAppContext = () => {
 export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const [sortOption, setSortOption] = useState('Most Upvotes');
 
-  return (
-    <AppContext.Provider value={{ sortOption, setSortOption }}>
-      {children}
-    </AppContext.Provider>
-  );
+  const value = { sortOption, setSortOption };
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

@@ -5,6 +5,7 @@ import { RootState } from '../../store';
 import { useEffect } from 'react';
 import { SAGA_ACTIONS } from '../../store/sagas/actions';
 import { useAppContext } from '../../context/app-context';
+import { sortFeedback } from '../../utils/funcs';
 
 const ProductsFeedback = () => {
   const dispatch = useDispatch();
@@ -18,20 +19,7 @@ const ProductsFeedback = () => {
     (state: RootState) => state.feedbacks
   );
 
-  const sortedFeedback = [...(productsFeedback || [])].sort((a, b) => {
-    switch (sortOption) {
-      case 'Most Upvotes':
-        return b.upvotes - a.upvotes;
-      case 'Least Upvotes':
-        return a.upvotes - b.upvotes;
-      case 'Most Comments':
-        return b.totalComments - a.totalComments;
-      case 'Least Comments':
-        return a.totalComments - b.totalComments;
-      default:
-        return 0;
-    }
-  });
+  const sortedFeedback = sortFeedback(productsFeedback, sortOption);
 
   return (
     <>
