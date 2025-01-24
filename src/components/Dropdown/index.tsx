@@ -1,12 +1,17 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
-const Dropdown = () => {
+interface DropdownProps {
+  sortOption: string;
+  setSortOption: (option: string) => void;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ sortOption, setSortOption }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <MenuButton className="inline-flex w-full justify-center gap-x-1.5 bg-[#373F68] text-sm font-semibold text-white">
-          <span className="font-light">Sort by : </span> Most Upvotes
+          <span className="font-light">Sort by : </span> {sortOption}
           <ChevronDownIcon
             aria-hidden="true"
             className="-mr-1 h-5 w-5 font-semibold text-white"
@@ -21,6 +26,7 @@ const Dropdown = () => {
         <div className="py-1">
           <MenuItem>
             <a
+              onClick={() => setSortOption('Most Upvotes')}
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
@@ -32,6 +38,7 @@ const Dropdown = () => {
 
           <MenuItem>
             <a
+              onClick={() => setSortOption('Least Upvotes')}
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
@@ -43,6 +50,7 @@ const Dropdown = () => {
 
           <MenuItem>
             <a
+              onClick={() => setSortOption('Most Comments')}
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
@@ -54,6 +62,7 @@ const Dropdown = () => {
 
           <MenuItem>
             <a
+              onClick={() => setSortOption('Least Comments')}
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >

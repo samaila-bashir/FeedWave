@@ -11,7 +11,7 @@ const ProductFeedback: FC<IProductFeedback> = ({
       <div className="flex items-center justify-between">
         <div className="flex items-start justify-between gap-x-5">
           <Upvotes className="hidden" upvotes={upvotes} />
-          <div className="md:pl-6">
+          <div className="md:px-6">
             <h1 className="mb-3 text-lg font-bold text-indigo-ink">{title}</h1>
             <p className="font-normal text-slate-gray">{description}</p>
             <div className="mt-3 inline-block rounded-lg bg-ghost-white px-6 py-2 font-semibold text-cornflower-blue">

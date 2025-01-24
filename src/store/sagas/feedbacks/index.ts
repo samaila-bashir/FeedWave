@@ -24,8 +24,6 @@ function* fetchAllProductsFeedback(): Generator<any, void, any> {
       totalComments: item.comments?.[0]?.count || 0,
     }));
 
-    console.log(formattedResponse);
-
     yield put(fetchProductsFeedbackSuccess(formattedResponse));
   } catch (error: any) {
     yield put(fetchProductsFeedbackFailure(error.message));

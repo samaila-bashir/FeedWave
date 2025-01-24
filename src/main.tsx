@@ -7,6 +7,7 @@ import App from './App.tsx';
 import './index.css';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from './components/error-fallback.tsx';
+import { AppContextProvider } from './context/app-context.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -17,7 +18,9 @@ createRoot(document.getElementById('root')!).render(
             <ErrorFallback resetErrorBoundary={resetErrorBoundary} />
           )}
         >
-          <App />
+          <AppContextProvider>
+            <App />
+          </AppContextProvider>
         </ErrorBoundary>
       </PersistGate>
     </Provider>
