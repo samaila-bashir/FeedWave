@@ -16,10 +16,17 @@ function* fetchAllProductsFeedback(): Generator<any, void, any> {
     yield put(fetchProductsFeedback());
 
     const response: IProductsFeedbackResponse = yield call(() =>
-      supabase.from('product_feedbacks').select('*')
+      supabase.from('product_feedbacks').select(`*, comments(count)`)
     );
 
-    yield put(fetchProductsFeedbackSuccess(response.data));
+    const formattedResponse = response.data?.map((item) => ({
+      ...item,
+      totalComments: item.comments?.[0]?.count || 0,
+    }));
+
+    console.log(formattedResponse);
+
+    yield put(fetchProductsFeedbackSuccess(formattedResponse));
   } catch (error: any) {
     yield put(fetchProductsFeedbackFailure(error.message));
   }

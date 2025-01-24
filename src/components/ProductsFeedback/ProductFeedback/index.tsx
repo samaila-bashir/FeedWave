@@ -1,9 +1,10 @@
 import { FC } from 'react';
+
 import Upvotes from '../../upvotes';
 import CommentsCount from '../../comments-count';
 
 const ProductFeedback: FC<IProductFeedback> = ({
-  productsFeedback: { title, category, upvotes, description },
+  productsFeedback: { title, category, upvotes, description, totalComments },
 }) => {
   return (
     <div className="mx-auto w-[85%] rounded-lg bg-white p-10 md:w-full">
@@ -18,11 +19,11 @@ const ProductFeedback: FC<IProductFeedback> = ({
             </div>
           </div>
         </div>
-        <CommentsCount className="hidden" total={3} />
+        <CommentsCount className="hidden" total={totalComments} />
       </div>
       <div className="mt-5 flex justify-between md:hidden">
         <Upvotes upvotes={upvotes} />
-        <CommentsCount total={3} />
+        <CommentsCount total={totalComments} />
       </div>
     </div>
   );

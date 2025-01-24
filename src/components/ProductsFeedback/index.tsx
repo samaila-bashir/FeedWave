@@ -18,7 +18,7 @@ const ProductsFeedback = () => {
 
   return (
     <>
-      {productsFeedback.length > 0 ? (
+      {productsFeedback && productsFeedback.length > 0 ? (
         productsFeedback.map((feedback: IProductsFeedbackData) => (
           <ProductFeedback key={feedback.id} productsFeedback={feedback} />
         ))

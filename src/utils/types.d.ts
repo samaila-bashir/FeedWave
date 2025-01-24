@@ -20,6 +20,10 @@ declare interface IComment {
   user: IUser;
 }
 
+interface ICommentCount {
+  count: number;
+}
+
 declare interface IProductsFeedbackData {
   id: number;
   title: string;
@@ -27,7 +31,8 @@ declare interface IProductsFeedbackData {
   upvotes: number;
   status: string;
   description: string;
-  comments?: IComment[];
+  comments: ICommentCount[];
+  totalComments: number;
 }
 
 declare interface IProductFeedback {
