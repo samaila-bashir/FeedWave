@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { SAGA_ACTIONS } from '@/store/sagas/actions';
 import { useAppContext } from '@/context/app-context';
 import { sortFeedback } from '@/utils/funcs';
+// import PopulateDataComponent from '../populate-data';
 
 const ProductsFeedback = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,8 @@ const ProductsFeedback = () => {
   );
 
   const sortedFeedback = sortFeedback(productsFeedback, sortOption);
+
+  // return <PopulateDataComponent />;
 
   return (
     <>

@@ -1,74 +1,247 @@
+// src/populateFirebase.ts
 import { db } from './firebase';
 import {
   collection,
   doc,
   addDoc,
   setDoc,
+  getDocs,
+  deleteDoc,
   serverTimestamp,
 } from 'firebase/firestore';
 
+// ─── SAMPLE DATA ─────────────────────────────────────────────
+
+// Realistic sample users
 const sampleUsers = [
   {
     id: 'user1',
     firstName: 'Alice',
     lastName: 'Smith',
-    email: 'alice@example.com',
-    photoURL: 'https://example.com/alice.jpg',
+    email: 'alice.smith@example.com',
+    photoURL: 'https://randomuser.me/api/portraits/women/1.jpg',
   },
   {
     id: 'user2',
     firstName: 'Bob',
     lastName: 'Johnson',
-    email: 'bob@example.com',
-    photoURL: 'https://example.com/bob.jpg',
+    email: 'bob.johnson@example.com',
+    photoURL: 'https://randomuser.me/api/portraits/men/2.jpg',
   },
   {
     id: 'user3',
     firstName: 'Carol',
     lastName: 'Williams',
-    email: 'carol@example.com',
-    photoURL: 'https://example.com/carol.jpg',
+    email: 'carol.williams@example.com',
+    photoURL: 'https://randomuser.me/api/portraits/women/3.jpg',
   },
   {
     id: 'user4',
     firstName: 'David',
     lastName: 'Brown',
-    email: 'david@example.com',
-    photoURL: 'https://example.com/david.jpg',
+    email: 'david.brown@example.com',
+    photoURL: 'https://randomuser.me/api/portraits/men/4.jpg',
   },
   {
     id: 'user5',
     firstName: 'Eva',
     lastName: 'Davis',
-    email: 'eva@example.com',
-    photoURL: 'https://example.com/eva.jpg',
+    email: 'eva.davis@example.com',
+    photoURL: 'https://randomuser.me/api/portraits/women/5.jpg',
   },
 ];
 
-// Helper function to generate a random integer between min and max (inclusive)
-const randomInt = (min: number, max: number) =>
+// Realistic feedback ideas
+const sampleFeedbackIdeas = [
+  {
+    title: 'Dark mode option',
+    description:
+      'A dark mode theme would make the app more comfortable to use at night or in low-light conditions.',
+    category: 'feature',
+    status: 'suggestion',
+  },
+  {
+    title: 'Improve search functionality',
+    description:
+      'The search bar should support filtering by category and keywords to quickly find relevant content.',
+    category: 'enhancement',
+    status: 'planned',
+  },
+  {
+    title: 'Fix navigation bar bug',
+    description:
+      'The navigation bar sometimes overlaps content on smaller screens and needs to be fixed.',
+    category: 'bug',
+    status: 'in-progress',
+  },
+  {
+    title: 'Add image upload feature',
+    description:
+      'Allow users to upload images in their posts and feedback, enhancing visual appeal.',
+    category: 'feature',
+    status: 'suggestion',
+  },
+  {
+    title: 'Improve loading speed',
+    description:
+      "Optimize the app's performance to reduce load times and improve user experience.",
+    category: 'enhancement',
+    status: 'planned',
+  },
+  {
+    title: 'Enhance accessibility',
+    description:
+      'Improve accessibility by adding keyboard navigation and screen reader support.',
+    category: 'enhancement',
+    status: 'suggestion',
+  },
+  {
+    title: 'Add user profile customization',
+    description:
+      'Allow users to customize their profile with bios, cover photos, and social links.',
+    category: 'feature',
+    status: 'suggestion',
+  },
+  {
+    title: 'Implement notification system',
+    description:
+      'Add real-time notifications for new messages, comments, and likes.',
+    category: 'feature',
+    status: 'planned',
+  },
+  {
+    title: 'Integrate third-party APIs',
+    description:
+      'Connect with external services like Google Maps or payment gateways to expand functionality.',
+    category: 'enhancement',
+    status: 'in-progress',
+  },
+  {
+    title: 'Improve error handling',
+    description:
+      'Enhance error messages and logging to help users and developers troubleshoot issues.',
+    category: 'bug',
+    status: 'suggestion',
+  },
+  {
+    title: 'Add multi-language support',
+    description:
+      'Allow users to switch between different languages for a more personalized experience.',
+    category: 'feature',
+    status: 'planned',
+  },
+  {
+    title: 'Optimize database queries',
+    description:
+      'Improve the efficiency of database calls to reduce load on the server.',
+    category: 'enhancement',
+    status: 'in-progress',
+  },
+  {
+    title: 'Redesign the dashboard',
+    description:
+      'Revamp the dashboard for a cleaner, more intuitive user interface.',
+    category: 'feature',
+    status: 'suggestion',
+  },
+  {
+    title: 'Add in-app chat',
+    description:
+      'Implement a real-time chat feature to enhance community engagement.',
+    category: 'feature',
+    status: 'planned',
+  },
+  {
+    title: 'Fix mobile layout issues',
+    description:
+      'Address layout problems on mobile devices to ensure a consistent experience.',
+    category: 'bug',
+    status: 'in-progress',
+  },
+];
+
+// Sample realistic comment messages
+const sampleComments = [
+  'I completely agree with this suggestion.',
+  'This update would really improve the user experience.',
+  "I've noticed this issue as well—great call!",
+  'It would be amazing if this got implemented soon.',
+  'I hope the team prioritizes this in the next update.',
+  "This is something I've been waiting for a long time.",
+  'Great idea! This could make a huge difference.',
+];
+
+// Sample realistic reply messages
+const sampleReplies = [
+  'Absolutely, I second that.',
+  'Thanks for sharing your thoughts.',
+  'I appreciate the feedback—this is a great point.',
+  'Looking forward to this improvement!',
+  'I agree, this could really help.',
+  'Thanks for the insight.',
+];
+
+// ─── HELPER FUNCTIONS ─────────────────────────────────────────
+
+const randomInt = (min: number, max: number): number =>
   Math.floor(Math.random() * (max - min + 1)) + min;
+const randomItem = <T>(array: T[]): T => array[randomInt(0, array.length - 1)];
 
-// Define possible categories and statuses for feedback
-const categories = ['feature', 'enhancement', 'bug'];
-const statuses = ['suggestion', 'planned', 'in-progress', 'live'];
+// ─── CLEAR EXISTING DATA ───────────────────────────────────────
 
-// Generate feedback data based on an index
-function generateFeedbackData(index: number) {
-  return {
-    title: `Feedback Title ${index}`,
-    category: categories[randomInt(0, categories.length - 1)],
-    upvotes: randomInt(0, 150),
-    status: statuses[randomInt(0, statuses.length - 1)],
-    description: `This is a description for feedback number ${index}. It provides details about the feedback.`,
-    userId: sampleUsers[randomInt(0, sampleUsers.length - 1)].id,
-    createdAt: serverTimestamp(),
-  };
+async function clearUsers(): Promise<void> {
+  const usersSnapshot = await getDocs(collection(db, 'users'));
+  const deletePromises = usersSnapshot.docs.map((docSnap) =>
+    deleteDoc(docSnap.ref)
+  );
+  await Promise.all(deletePromises);
+  console.log('Cleared users collection');
 }
 
-export async function populateDatabase() {
+async function clearReplies(
+  feedbackId: string,
+  commentId: string
+): Promise<void> {
+  const repliesSnapshot = await getDocs(
+    collection(db, 'feedback', feedbackId, 'comments', commentId, 'replies')
+  );
+  const deletePromises = repliesSnapshot.docs.map((replyDoc) =>
+    deleteDoc(replyDoc.ref)
+  );
+  await Promise.all(deletePromises);
+}
+
+async function clearComments(feedbackId: string): Promise<void> {
+  const commentsSnapshot = await getDocs(
+    collection(db, 'feedback', feedbackId, 'comments')
+  );
+  for (const commentDoc of commentsSnapshot.docs) {
+    await clearReplies(feedbackId, commentDoc.id);
+    await deleteDoc(commentDoc.ref);
+  }
+}
+
+async function clearFeedbacks(): Promise<void> {
+  const feedbackSnapshot = await getDocs(collection(db, 'feedback'));
+  for (const feedbackDoc of feedbackSnapshot.docs) {
+    await clearComments(feedbackDoc.id);
+    await deleteDoc(feedbackDoc.ref);
+  }
+}
+
+export async function clearDatabase(): Promise<void> {
+  await Promise.all([clearUsers(), clearFeedbacks()]);
+  console.log('Database cleared');
+}
+
+// ─── POPULATE NEW DATA ─────────────────────────────────────────
+
+export async function populateDatabase(): Promise<void> {
   try {
-    // 1. Add sample users to the "users" collection.
+    // First, clear existing data.
+    await clearDatabase();
+
+    // 1. Add sample users to "users" collection.
     for (const user of sampleUsers) {
       await setDoc(doc(db, 'users', user.id), {
         firstName: user.firstName,
@@ -80,9 +253,19 @@ export async function populateDatabase() {
     }
     console.log('Users added');
 
-    // 2. Add 15 feedback documents to the "feedback" collection.
-    for (let i = 1; i <= 15; i++) {
-      const feedbackData = generateFeedbackData(i);
+    // 2. Add 25 feedback documents to "feedback" collection.
+    for (let i = 0; i < 25; i++) {
+      const feedbackIdea = sampleFeedbackIdeas[i % sampleFeedbackIdeas.length];
+      const feedbackData = {
+        title: feedbackIdea.title,
+        category: feedbackIdea.category,
+        upvotes: randomInt(10, 200),
+        status: feedbackIdea.status,
+        description: feedbackIdea.description,
+        userId: randomItem(sampleUsers).id,
+        createdAt: serverTimestamp(),
+      };
+
       const feedbackRef = await addDoc(
         collection(db, 'feedback'),
         feedbackData
@@ -90,10 +273,10 @@ export async function populateDatabase() {
 
       // Generate a random number of comments between 3 and 8.
       const numComments = randomInt(3, 8);
-      for (let j = 1; j <= numComments; j++) {
+      for (let j = 0; j < numComments; j++) {
         const commentData = {
-          comment: `This is comment ${j} for feedback ${i}.`,
-          userId: sampleUsers[randomInt(0, sampleUsers.length - 1)].id,
+          comment: randomItem(sampleComments),
+          userId: randomItem(sampleUsers).id,
           createdAt: serverTimestamp(),
         };
 
@@ -104,11 +287,11 @@ export async function populateDatabase() {
 
         // For each comment, generate a random number of replies between 1 and 3.
         const numReplies = randomInt(1, 3);
-        for (let k = 1; k <= numReplies; k++) {
+        for (let k = 0; k < numReplies; k++) {
           const replyData = {
-            comment: `This is reply ${k} for comment ${j} on feedback ${i}.`,
-            replyingTo: commentData.userId, // reply to the comment's userId
-            userId: sampleUsers[randomInt(0, sampleUsers.length - 1)].id,
+            comment: randomItem(sampleReplies),
+            replyingTo: commentData.userId, // replying to the comment's user
+            userId: randomItem(sampleUsers).id,
             createdAt: serverTimestamp(),
           };
 
