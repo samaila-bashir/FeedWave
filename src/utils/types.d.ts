@@ -23,15 +23,15 @@ declare interface IComment {
 interface ICommentCount {
   count: number;
 }
-
 declare interface IProductsFeedbackData {
-  id: number;
+  id: string;
   title: string;
   category: string;
   upvotes: number;
   status: string;
   description: string;
-  comments: ICommentCount[];
+  userId: string;
+  createdAt: any;
   totalComments: number;
 }
 
