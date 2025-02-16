@@ -1,5 +1,5 @@
-import IconComments from '../../assets/shared/icon-comments.svg';
-import { cn } from '../../utils/cn';
+import IconComments from '@/assets/shared/icon-comments.svg';
+import { cn } from '@/utils/cn';
 
 interface ICommentsCountProps {
   total: number;

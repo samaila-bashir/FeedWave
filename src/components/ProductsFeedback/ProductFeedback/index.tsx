@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import Upvotes from '../../upvotes';
-import CommentsCount from '../../comments-count';
+import Upvotes from '@/components/upvotes';
+import CommentsCount from '@/components/comments-count';
 
 const ProductFeedback: FC<IProductFeedback> = ({
   productsFeedback: { title, category, upvotes, description, totalComments },

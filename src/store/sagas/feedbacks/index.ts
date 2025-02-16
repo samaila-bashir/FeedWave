@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { db } from '../../../firebase';
+import { db } from '@/firebase';
 import {
   collection,
   getDocs,
@@ -10,7 +10,7 @@ import {
   fetchProductsFeedback,
   fetchProductsFeedbackFailure,
   fetchProductsFeedbackSuccess,
-} from '../../slices/product-feedback';
+} from '@/store/slices/product-feedback';
 import { SAGA_ACTIONS } from '../actions';
 
 function* fetchAllProductsFeedback(): Generator<any, void, unknown> {

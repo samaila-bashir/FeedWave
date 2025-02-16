@@ -1,11 +1,11 @@
-import ProductFeedback from './ProductFeedback';
-import NoProductFeedback from './NoProductFeedback';
+import ProductFeedback from '@/components/ProductsFeedback/ProductFeedback';
+import NoProductFeedback from '@/components/ProductsFeedback/NoProductFeedback';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState } from '@/store';
 import { useEffect } from 'react';
-import { SAGA_ACTIONS } from '../../store/sagas/actions';
-import { useAppContext } from '../../context/app-context';
-import { sortFeedback } from '../../utils/funcs';
+import { SAGA_ACTIONS } from '@/store/sagas/actions';
+import { useAppContext } from '@/context/app-context';
+import { sortFeedback } from '@/utils/funcs';
 
 const ProductsFeedback = () => {
   const dispatch = useDispatch();
