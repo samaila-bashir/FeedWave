@@ -1,15 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 interface IProductFeedbackState {
   productsFeedback: IProductsFeedbackData[];
   loading: boolean;
   error: string;
+  lastVisible: any;
 }
 
 const defaultState: IProductFeedbackState = {
   productsFeedback: [],
   loading: false,
   error: '',
+  lastVisible: null,
 };
 
 const productFeedbackSlice = createSlice({
@@ -21,7 +22,13 @@ const productFeedbackSlice = createSlice({
     },
     fetchProductsFeedbackSuccess: (state, action) => {
       state.loading = false;
-      state.productsFeedback = action.payload;
+      const { feedback, lastVisible, append } = action.payload;
+      if (append) {
+        state.productsFeedback = [...state.productsFeedback, ...feedback];
+      } else {
+        state.productsFeedback = feedback;
+      }
+      state.lastVisible = lastVisible;
     },
     fetchProductsFeedbackFailure: (state, action) => {
       state.loading = false;
